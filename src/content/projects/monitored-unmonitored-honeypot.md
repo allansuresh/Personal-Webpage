@@ -1,7 +1,7 @@
 ---
 title: "Monitored vs. Unmonitored: A Honeypot Study of Instrumental Reasoning"
 summary: "A controlled experiment testing whether models take more shortcuts when they believe grading is unmonitored, using a fake grading server as a honeypot."
-date: 2026-06-01
+date: 2026-08-01
 stack: ["Inspect AI", "Flask", "Docker", "Claude Sonnet 5"]
 status: active
 featured: true
