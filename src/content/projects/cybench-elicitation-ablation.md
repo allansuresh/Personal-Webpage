@@ -1,7 +1,7 @@
 ---
 title: "CyBench Elicitation Ablation"
 summary: "A 2×2×2 ablation across 2 models, 2 guidance levels, and 2 tool configs on 9 CyBench tasks — the real finding was that budget exhaustion, not incorrect reasoning, explained almost every failure."
-date: 2026-04-15
+date: 2026-07-23
 stack: ["Inspect AI", "CyBench", "Docker"]
 status: complete
 featured: true
