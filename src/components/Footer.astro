@@ -1,0 +1,53 @@
+---
+import { site } from '../site.config';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container bar">
+    <p class="field">
+      <b>{site.name}</b> — {site.location}
+    </p>
+    <p class="field links">
+      <a href={`mailto:${site.email}`}>Email</a>
+      <a href={site.github} target="_blank" rel="noreferrer">GitHub</a>
+      <a href={site.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
+    </p>
+    <p class="field muted">© {year}. Built with Astro.</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--line);
+    margin-top: var(--space-6);
+  }
+
+  .bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    padding-top: var(--space-3);
+    padding-bottom: var(--space-3);
+  }
+
+  .links {
+    display: flex;
+    gap: var(--space-3);
+  }
+
+  .links a {
+    text-decoration: none;
+    color: var(--ink-soft);
+  }
+
+  .links a:hover {
+    color: var(--signal);
+  }
+
+  .muted {
+    color: var(--ink-faint);
+  }
+</style>

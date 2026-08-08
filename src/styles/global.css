@@ -1,0 +1,273 @@
+@import '@fontsource/newsreader/400.css';
+@import '@fontsource/newsreader/400-italic.css';
+@import '@fontsource/newsreader/500.css';
+@import '@fontsource/newsreader/600.css';
+@import '@fontsource/newsreader/600-italic.css';
+@import '@fontsource/source-serif-4/400.css';
+@import '@fontsource/source-serif-4/400-italic.css';
+@import '@fontsource/source-serif-4/600.css';
+@import '@fontsource/ibm-plex-mono/400.css';
+@import '@fontsource/ibm-plex-mono/500.css';
+
+/*
+  Design tokens — "field notes" system.
+  Grounded in Allan's own work: behavioral evals read and annotated as
+  structured logs (status fields, monitored/unmonitored framing, flagged
+  findings). The editorial base carries the long-form research writing;
+  the mono "field label" + flag-dot motif is the one signature device
+  that repeats across hero, cards, and post meta — nowhere else.
+*/
+:root {
+  /* Color */
+  --paper: #f5f4f0;
+  --paper-raised: #fffefb;
+  --ink: #1a1c21;
+  --ink-soft: #5b5f68;
+  --ink-faint: #8b8e95;
+  --line: #dedad2;
+  --line-strong: #c7c2b6;
+  --signal: #1f6f63; /* verified / active — used for links, status:active */
+  --signal-soft: #e4efec;
+  --flag: #a83b32; /* flagged / finding — used sparingly for tags, emphasis */
+  --flag-soft: #f3e6e3;
+
+  /* Type */
+  --font-display: 'Newsreader', 'Iowan Old Style', serif;
+  --font-body: 'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  /* Layout */
+  --measure: 42rem;
+  --measure-wide: 64rem;
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.75rem;
+  --space-4: 3rem;
+  --space-5: 5rem;
+  --space-6: 8rem;
+  --radius: 3px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--paper);
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: currentColor;
+}
+
+::selection {
+  background: var(--signal-soft);
+  color: var(--ink);
+}
+
+/* Visible keyboard focus — never removed, only restyled */
+:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 3px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: 1.15;
+  margin: 0 0 var(--space-2);
+  letter-spacing: -0.01em;
+}
+
+h1 {
+  font-size: clamp(2.25rem, 4.5vw, 3.75rem);
+  font-weight: 500;
+}
+
+h2 {
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+}
+
+h3 {
+  font-size: 1.3rem;
+}
+
+p {
+  margin: 0 0 var(--space-2);
+}
+
+/* Utility: the mono "field label" — the site's recurring signature device.
+   Used for eyebrows, metadata lines, tags. Never for body copy. */
+.field {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.field b {
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--signal);
+  margin-right: 0.55em;
+  position: relative;
+  top: -1px;
+}
+
+.dot--flag {
+  background: var(--flag);
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 0.3em 0.6em;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  color: var(--ink-soft);
+  background: var(--paper-raised);
+}
+
+.tag--signal {
+  border-color: var(--signal);
+  color: var(--signal);
+  background: var(--signal-soft);
+}
+
+.tag--flag {
+  border-color: var(--flag);
+  color: var(--flag);
+  background: var(--flag-soft);
+}
+
+.rule {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: var(--space-4) 0;
+}
+
+.container {
+  max-width: var(--measure-wide);
+  margin: 0 auto;
+  padding: 0 var(--space-3);
+}
+
+.prose {
+  max-width: var(--measure);
+}
+
+.prose h2 {
+  margin-top: var(--space-4);
+}
+
+.prose h3 {
+  margin-top: var(--space-3);
+}
+
+.prose a {
+  color: var(--signal);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.prose blockquote {
+  margin: var(--space-3) 0;
+  padding-left: var(--space-2);
+  border-left: 2px solid var(--flag);
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--paper-raised);
+  border: 1px solid var(--line);
+  padding: 0.1em 0.35em;
+  border-radius: var(--radius);
+}
+
+.prose pre {
+  background: var(--ink);
+  color: var(--paper);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius);
+  overflow-x: auto;
+  font-size: 0.85rem;
+}
+
+.prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+}
+
+.prose figure {
+  margin: var(--space-3) 0;
+}
+
+.prose figcaption {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--ink-faint);
+  margin-top: 0.5em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    animation: reveal 0.6s ease both;
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    font-size: 15px;
+  }
+}

@@ -1,0 +1,117 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<BaseLayout title="Writing" description="Notes and write-ups on AI safety evaluation projects.">
+  <section class="container header">
+    <p class="field"><span class="dot" aria-hidden="true"></span>log — writing</p>
+    <h1>Writing</h1>
+    <p class="lede">
+      Longer write-ups on evaluation projects — methodology, findings, and
+      what I'd change next time. Companion reading to the project log.
+    </p>
+  </section>
+
+  <section class="container">
+    {
+      posts.length === 0 ? (
+        <p class="empty field">no entries yet — first post coming soon.</p>
+      ) : (
+        <ul class="list">
+          {posts.map((post) => (
+            <li>
+              <a href={`/blog/${post.id}/`}>
+                <p class="field date">
+                  {post.data.date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </p>
+                <h2>{post.data.title}</h2>
+                <p class="summary">{post.data.summary}</p>
+                {post.data.tags.length > 0 && (
+                  <p class="stack">
+                    {post.data.tags.map((t) => (
+                      <span class="tag">{t}</span>
+                    ))}
+                  </p>
+                )}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </section>
+</BaseLayout>
+
+<style>
+  .header {
+    padding-top: var(--space-5);
+    padding-bottom: var(--space-3);
+    max-width: 44rem;
+  }
+
+  .lede {
+    color: var(--ink-soft);
+    font-size: 1.05rem;
+  }
+
+  .empty {
+    padding: var(--space-4) 0;
+    color: var(--ink-faint);
+  }
+
+  .list {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 var(--space-5);
+  }
+
+  .list li {
+    border-top: 1px solid var(--line);
+  }
+
+  .list li:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .list a {
+    display: block;
+    padding: var(--space-3) 0;
+    text-decoration: none;
+    color: var(--ink);
+  }
+
+  .date {
+    color: var(--ink-faint);
+    margin-bottom: 0.5em;
+  }
+
+  .list h2 {
+    font-size: 1.5rem;
+    transition: color 0.15s ease;
+  }
+
+  .list a:hover h2 {
+    color: var(--signal);
+  }
+
+  .summary {
+    color: var(--ink-soft);
+    max-width: 42rem;
+  }
+
+  .stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4em;
+    margin-top: var(--space-2);
+  }
+</style>

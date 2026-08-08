@@ -1,0 +1,345 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { site } from '../site.config';
+
+const allProjects = await getCollection('projects');
+const featured = allProjects
+  .filter((p) => p.data.featured)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const focus = [
+  {
+    tag: 'evaluations',
+    text: 'Designing controlled experiments on instrumental reasoning and shortcut-taking — monitored vs. unmonitored framing, run with Inspect AI.',
+  },
+  {
+    tag: 'benchmarking',
+    text: 'Studying sandbagging and elicitation gaps in frontier models across GPQA Diamond, ARC-Easy, and CyBench.',
+  },
+  {
+    tag: 'background',
+    text: 'AISI Fellowship at Georgia Tech, SERI MATS under John Wentworth, and a GCRI governance fellowship with Seth Baum.',
+  },
+];
+---
+
+<BaseLayout title="Home">
+  <section class="hero container">
+    <div class="hero-text">
+      <p class="field reveal">
+        <span class="dot" aria-hidden="true"></span><b>status</b> — active
+        <span class="sep">·</span>
+        <b>focus</b> — dangerous-capability evaluations
+        <span class="sep">·</span>
+        <b>based</b> — {site.location}
+      </p>
+      <h1 class="reveal">
+        I study how language models behave <em>when they think no one is checking.</em>
+      </h1>
+      <p class="lede reveal">
+        I'm {site.name}, a research engineer working at the intersection of backend
+        systems and AI safety evaluations — building the harnesses, honeypots, and
+        benchmarks that reveal how models act under monitored and unmonitored
+        conditions.
+      </p>
+      <p class="cta reveal">
+        <a class="button" href="/projects/">View research log →</a>
+        <a class="button button--ghost" href="/resume/">Résumé</a>
+      </p>
+    </div>
+    <img
+      class="portrait reveal"
+      src="https://i.imgur.com/UakXcZf.png"
+      alt={`Portrait of ${site.name}`}
+      width="220"
+      height="220"
+    />
+  </section>
+
+  <hr class="rule container" />
+
+  <section class="container focus-grid">
+    <h2>Current focus</h2>
+    <div class="grid">
+      {
+        focus.map((f) => (
+          <div class="focus-item">
+            <p class="field"><span class="dot" aria-hidden="true" /> {f.tag}</p>
+            <p>{f.text}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  {
+    featured.length > 0 && (
+      <>
+        <hr class="rule container" />
+        <section class="container">
+          <div class="section-head">
+            <h2>Featured work</h2>
+            <a class="see-all" href="/projects/">All projects →</a>
+          </div>
+          <div class="card-grid">
+            {featured.map((p) => (
+              <a class="card" href={`/projects/${p.id}/`}>
+                <p class="field">
+                  <span class={`dot ${p.data.status === 'active' ? '' : 'dot--flag'}`} />
+                  status — {p.data.status}
+                </p>
+                <h3>{p.data.title}</h3>
+                <p class="summary">{p.data.summary}</p>
+                {p.data.stack.length > 0 && (
+                  <p class="stack">
+                    {p.data.stack.map((s) => (
+                      <span class="tag">{s}</span>
+                    ))}
+                  </p>
+                )}
+              </a>
+            ))}
+          </div>
+        </section>
+      </>
+    )
+  }
+
+  {
+    posts.length > 0 && (
+      <>
+        <hr class="rule container" />
+        <section class="container">
+          <div class="section-head">
+            <h2>Recent writing</h2>
+            <a class="see-all" href="/blog/">All posts →</a>
+          </div>
+          <ul class="post-list">
+            {posts.map((post) => (
+              <li>
+                <a href={`/blog/${post.id}/`}>
+                  <span class="post-title">{post.data.title}</span>
+                  <span class="field post-date">
+                    {post.data.date.toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric',
+                    })}
+                  </span>
+                </a>
+                <p class="summary">{post.data.summary}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </>
+    )
+  }
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-top: var(--space-5);
+    padding-bottom: var(--space-4);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  .hero-text {
+    max-width: 42rem;
+  }
+
+  .portrait {
+    width: 176px;
+    height: 176px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1px solid var(--line-strong);
+    flex-shrink: 0;
+    margin-top: 0.5rem;
+  }
+
+  @media (max-width: 760px) {
+    .hero {
+      flex-direction: column-reverse;
+    }
+    .portrait {
+      width: 96px;
+      height: 96px;
+    }
+  }
+
+  .hero .field .sep {
+    color: var(--line-strong);
+    margin: 0 0.5em;
+  }
+
+  .hero h1 {
+    margin-top: var(--space-2);
+    font-size: clamp(2rem, 4.4vw, 3.4rem);
+  }
+
+  .hero h1 em {
+    color: var(--signal);
+    font-style: italic;
+  }
+
+  .lede {
+    font-size: 1.15rem;
+    color: var(--ink-soft);
+    max-width: 38rem;
+    margin-top: var(--space-2);
+  }
+
+  .cta {
+    margin-top: var(--space-3);
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  .button {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    padding: 0.65em 1.1em;
+    border-radius: var(--radius);
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+    transition: opacity 0.15s ease;
+  }
+
+  .button:hover {
+    opacity: 0.85;
+  }
+
+  .button--ghost {
+    background: transparent;
+    color: var(--ink);
+    border-color: var(--line-strong);
+  }
+
+  .focus-grid h2,
+  section > .section-head h2 {
+    margin-bottom: var(--space-3);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+  }
+
+  .focus-item p.field {
+    margin-bottom: 0.5em;
+  }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: var(--space-3);
+  }
+
+  .see-all {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    text-decoration: none;
+    color: var(--signal);
+    white-space: nowrap;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+  }
+
+  .card {
+    display: block;
+    text-decoration: none;
+    color: var(--ink);
+    border: 1px solid var(--line);
+    background: var(--paper-raised);
+    border-radius: var(--radius);
+    padding: var(--space-3);
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+
+  .card:hover {
+    border-color: var(--signal);
+    transform: translateY(-2px);
+  }
+
+  .card h3 {
+    margin: 0.4em 0 0.5em;
+  }
+
+  .card .summary {
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+  }
+
+  .stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4em;
+    margin-top: var(--space-2);
+  }
+
+  .post-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .post-list li {
+    border-top: 1px solid var(--line);
+    padding: var(--space-2) 0;
+  }
+
+  .post-list li:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .post-list a {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    text-decoration: none;
+    color: var(--ink);
+    gap: var(--space-2);
+  }
+
+  .post-title {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+  }
+
+  .post-date {
+    white-space: nowrap;
+    color: var(--ink-faint);
+  }
+
+  .post-list .summary {
+    color: var(--ink-soft);
+    margin-top: 0.3em;
+    max-width: 42rem;
+  }
+
+  @media (max-width: 800px) {
+    .grid,
+    .card-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

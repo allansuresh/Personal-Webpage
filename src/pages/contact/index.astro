@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { site } from '../../site.config';
+
+const channels = [
+  { label: 'Email', value: site.email, href: `mailto:${site.email}` },
+  { label: 'GitHub', value: '@allansuresh', href: site.github },
+  { label: 'LinkedIn', value: 'Allan Suresh', href: site.linkedin },
+];
+---
+
+<BaseLayout title="Contact" description="Get in touch with Allan Suresh.">
+  <section class="container">
+    <p class="field"><span class="dot" aria-hidden="true"></span>channel — open</p>
+    <h1>Let's talk</h1>
+    <p class="lede">
+      Reach out about evaluations work, collaborations, or roles — I'm happy
+      to hear from you.
+    </p>
+
+    <ul class="channels">
+      {
+        channels.map((c) => (
+          <li>
+            <a href={c.href} target={c.href.startsWith('http') ? '_blank' : undefined} rel="noreferrer">
+              <span class="field label">{c.label}</span>
+              <span class="value">{c.value}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  section {
+    padding-top: var(--space-5);
+    padding-bottom: var(--space-6);
+    max-width: 40rem;
+  }
+
+  .lede {
+    color: var(--ink-soft);
+    font-size: 1.1rem;
+    margin-bottom: var(--space-4);
+  }
+
+  .channels {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .channels li {
+    border-top: 1px solid var(--line);
+  }
+
+  .channels li:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .channels a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-3) 0;
+    text-decoration: none;
+    color: var(--ink);
+  }
+
+  .label {
+    color: var(--ink-faint);
+  }
+
+  .value {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    transition: color 0.15s ease;
+  }
+
+  .channels a:hover .value {
+    color: var(--signal);
+  }
+</style>

@@ -1,0 +1,126 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<BaseLayout title="Projects" description="Research and engineering projects — AI safety evaluations and earlier software work.">
+  <section class="container header">
+    <p class="field"><span class="dot" aria-hidden="true"></span>log — all entries</p>
+    <h1>Projects</h1>
+    <p class="lede">
+      A running log of research and engineering work, newest first. Earlier
+      entries are smaller side projects from before I moved into AI safety
+      evaluations full-time.
+    </p>
+  </section>
+
+  <section class="container">
+    <div class="list">
+      {
+        projects.map((p) => (
+          <a class="row" href={`/projects/${p.id}/`}>
+            <div class="row-meta">
+              <p class="field">
+                <span class={`dot ${p.data.status === 'active' ? '' : 'dot--flag'}`} />
+                {p.data.status}
+              </p>
+              <p class="field muted">
+                {p.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}
+              </p>
+            </div>
+            <div class="row-body">
+              <h2>{p.data.title}</h2>
+              <p class="summary">{p.data.summary}</p>
+              {p.data.stack.length > 0 && (
+                <p class="stack">
+                  {p.data.stack.map((s) => (
+                    <span class="tag">{s}</span>
+                  ))}
+                </p>
+              )}
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .header {
+    padding-top: var(--space-5);
+    padding-bottom: var(--space-3);
+    max-width: 44rem;
+  }
+
+  .lede {
+    color: var(--ink-soft);
+    font-size: 1.05rem;
+  }
+
+  .list {
+    padding-bottom: var(--space-5);
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    gap: var(--space-3);
+    padding: var(--space-3) 0;
+    border-top: 1px solid var(--line);
+    text-decoration: none;
+    color: var(--ink);
+  }
+
+  .list a:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .row-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+    padding-top: 0.2em;
+  }
+
+  .muted {
+    color: var(--ink-faint);
+  }
+
+  .row-body h2 {
+    font-size: 1.4rem;
+    margin-bottom: 0.4em;
+    transition: color 0.15s ease;
+  }
+
+  .row:hover .row-body h2 {
+    color: var(--signal);
+  }
+
+  .summary {
+    color: var(--ink-soft);
+    max-width: 42rem;
+  }
+
+  .stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4em;
+    margin-top: var(--space-2);
+  }
+
+  @media (max-width: 640px) {
+    .row {
+      grid-template-columns: 1fr;
+      gap: var(--space-1);
+    }
+    .row-meta {
+      flex-direction: row;
+      gap: var(--space-2);
+    }
+  }
+</style>

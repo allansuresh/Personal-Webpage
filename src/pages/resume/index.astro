@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Résumé" description="Résumé of Allan Suresh.">
+  <section class="container header">
+    <p class="field"><span class="dot" aria-hidden="true"></span>document — résumé</p>
+    <h1>Résumé</h1>
+    <p class="lede">
+      <a class="button" href="/resume.pdf" download>Download PDF →</a>
+    </p>
+  </section>
+
+  <section class="container viewer">
+    <object data="/resume.pdf#zoom=FitW" type="application/pdf" aria-label="Résumé PDF">
+      <p class="fallback field">
+        Your browser can't display the PDF inline. <a href="/resume.pdf">Open it directly →</a>
+      </p>
+    </object>
+  </section>
+</BaseLayout>
+
+<style>
+  .header {
+    padding-top: var(--space-5);
+    padding-bottom: var(--space-3);
+    max-width: 40rem;
+  }
+
+  .lede {
+    margin-top: var(--space-2);
+  }
+
+  .button {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    text-decoration: none;
+    padding: 0.65em 1.1em;
+    border-radius: var(--radius);
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .button:hover {
+    opacity: 0.85;
+  }
+
+  .viewer {
+    padding-bottom: var(--space-6);
+  }
+
+  .viewer object {
+    width: 100%;
+    height: 85vh;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--paper-raised);
+  }
+
+  .fallback {
+    padding: var(--space-4);
+  }
+
+  .fallback a {
+    color: var(--signal);
+  }
+</style>
