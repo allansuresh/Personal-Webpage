@@ -95,9 +95,6 @@ the monitored/unmonitored, status-tagged framing of the eval work itself.
 Change the values there to retheme the whole site consistently.
 
 ## Known placeholders to replace
-
-- `public/resume.pdf` — currently a placeholder; swap in your real PDF
-  (same filename, and everything else keeps working).
 - Homepage portrait currently points at the old Imgur-hosted headshot —
   swap the `src` in `src/pages/index.astro` once you have a new photo
   (drop it in `public/images/` and reference it as `/images/filename.jpg`).
