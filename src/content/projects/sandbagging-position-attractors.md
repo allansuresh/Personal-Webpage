@@ -1,7 +1,7 @@
 ---
 title: "Sandbagging Detection via Position Attractors"
 summary: "A 2×2×2 pilot extending Cacioli's 2026 position-attractor work to a frontier model, testing whether reasoning-permission changes whether sandbagging leaves a detectable signature."
-date: 2026-07-10
+date: 2026-03-02
 stack: ["Inspect AI", "GPQA Diamond", "ARC-Easy", "SciPy"]
 status: complete
 featured: true

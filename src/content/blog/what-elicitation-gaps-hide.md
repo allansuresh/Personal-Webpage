@@ -1,7 +1,7 @@
 ---
 title: "What Elicitation Gaps Hide"
 summary: "Running the same CyBench tasks across a 2×2×2 condition matrix, the biggest driver of apparent capability wasn't guidance or tool access — it was whether the agent ran out of tokens."
-date: 2026-04-20
+date: 2026-05-20
 project: cybench-elicitation-ablation
 tags: ["evaluations", "cybench", "elicitation"]
 ---
