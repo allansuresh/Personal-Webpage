@@ -3,7 +3,7 @@ title: "Grant Proposal Evaluator: Measuring an LLM Judge's Reliability"
 summary: "A full-stack app where an LLM scores grant proposals against a rubric, then checks itself: repeat-run statistics, a ranking check, a prompt-injection check, and a perturbation test for halo effects. Testing it surfaced a test-data leak that would have invalidated the results."
 date: 2026-10-12
 stack: ["Next.js", "TypeScript", "PostgreSQL", "Prisma", "Anthropic API", "Vitest"]
-status: active
+status: Completed - with Live Demo
 featured: true
 repoUrl: "https://github.com/allansuresh/grant-proposal-eval"
 demoUrl: "https://evaluator.allansuresh.com"
