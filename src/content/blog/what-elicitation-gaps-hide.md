@@ -51,4 +51,4 @@ calling it a capability finding.
 
 Full methodology, the per-task breakdown, and limitations (including how
 tasks split into reliably-solved, reliably-budget-exhausted, and
-budget-critical buckets) are in the [full report](https://github.com/allansuresh/cybench-benchmark/blob/main/cybench_elicitation_report.md).
+budget-critical buckets) are in the [full report](https://github.com/allansuresh/cybench-benchmark/blob/main/Report.md).

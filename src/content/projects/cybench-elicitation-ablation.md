@@ -6,7 +6,7 @@ stack: ["Inspect AI", "CyBench", "Docker"]
 status: complete
 featured: true
 repoUrl: "https://github.com/allansuresh/cybench-benchmark"
-writeupUrl: "https://github.com/allansuresh/cybench-benchmark/blob/main/cybench_elicitation_report.md"
+writeupUrl: "https://github.com/allansuresh/cybench-benchmark/blob/main/Report.md"
 ---
 
 ## Motivation
