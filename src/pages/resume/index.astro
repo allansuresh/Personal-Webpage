@@ -1,24 +1,73 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const versions = [
+  { id: 'research', label: 'Research', file: '/resume.pdf' },
+  { id: 'software', label: 'Software', file: '/software-resume.pdf' },
+];
 ---
 
 <BaseLayout title="Résumé" description="Résumé of Allan Suresh.">
   <section class="container header">
     <p class="field"><span class="dot" aria-hidden="true"></span>document — résumé</p>
     <h1>Résumé</h1>
-    <p class="lede">
-      <a class="button" href="/resume.pdf" download>Download PDF →</a>
-    </p>
+
+    <div class="tabs" role="tablist" aria-label="Résumé version">
+      {
+        versions.map((v, i) => (
+          <a
+            class="tab"
+            role="tab"
+            href={`?v=${v.id}`}
+            data-version={v.id}
+            aria-selected={i === 0 ? 'true' : 'false'}
+          >
+            {v.label}
+          </a>
+        ))
+      }
+    </div>
   </section>
 
-  <section class="container viewer">
-    <object data="/resume.pdf#zoom=FitW" type="application/pdf" aria-label="Résumé PDF">
-      <p class="fallback field">
-        Your browser can't display the PDF inline. <a href="/resume.pdf">Open it directly →</a>
-      </p>
-    </object>
-  </section>
+  {
+    versions.map((v, i) => (
+      <section class="container viewer" data-panel={v.id} hidden={i !== 0}>
+        <p class="lede">
+          <a class="button" href={v.file} download>
+            Download {v.label} PDF →
+          </a>
+        </p>
+        <object data={`${v.file}#zoom=FitW`} type="application/pdf" aria-label={`${v.label} résumé PDF`}>
+          <p class="fallback field">
+            Your browser can't display the PDF inline. <a href={v.file}>Open it directly →</a>
+          </p>
+        </object>
+      </section>
+    ))
+  }
 </BaseLayout>
+
+<script>
+  const tabs = document.querySelectorAll<HTMLAnchorElement>('.tab');
+  const panels = document.querySelectorAll<HTMLElement>('[data-panel]');
+
+  function show(id: string) {
+    tabs.forEach((t) => t.setAttribute('aria-selected', String(t.dataset.version === id)));
+    panels.forEach((p) => (p.hidden = p.dataset.panel !== id));
+  }
+
+  const initial = new URLSearchParams(location.search).get('v');
+  if (initial && [...tabs].some((t) => t.dataset.version === initial)) show(initial);
+
+  tabs.forEach((t) =>
+    t.addEventListener('click', (e) => {
+      e.preventDefault();
+      const id = t.dataset.version!;
+      show(id);
+      history.replaceState(null, '', `?v=${id}`);
+    })
+  );
+</script>
 
 <style>
   .header {
@@ -27,8 +76,40 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     max-width: 40rem;
   }
 
+  .tabs {
+    display: inline-flex;
+    margin-top: var(--space-3);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .tab {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.55em 1.1em;
+    color: var(--ink-soft);
+    background: var(--paper);
+  }
+
+  .tab + .tab {
+    border-left: 1px solid var(--line);
+  }
+
+  .tab:hover {
+    color: var(--ink);
+  }
+
+  .tab[aria-selected='true'] {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
   .lede {
-    margin-top: var(--space-2);
+    margin-bottom: var(--space-3);
   }
 
   .button {
